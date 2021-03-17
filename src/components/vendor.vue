@@ -5,7 +5,8 @@
     <input v-model="email" type="text" name="" id="c" placeholder="email" />
     <button type="button" @click="submitVendor()">Tambah Vendor</button>
     <br />
-    <pre>{{ vendor }}</pre>
+    <h3>Jumlah Vendor {{ vendor.length }}</h3>
+    <h3>State Count {{ count }}</h3>
     <table class="table table-striped table-inverse table-responsive">
       <thead class="thead-inverse">
         <tr>
@@ -52,6 +53,15 @@ export default {
     });
   },
 
+  computed: {
+    totalVendor() {
+      return this.vendor.length;
+    },
+    count() {
+      return this.$store.state.count;
+    },
+  },
+
   methods: {
     submitVendor() {
       let input = {
@@ -62,6 +72,7 @@ export default {
       this.$http
         .post("http://localhost:8000/vendor/create", input)
         .then((response) => {
+          this.$store.commit("increment");
           alert("Sukses");
           this.getVendor();
         })
