@@ -9,8 +9,8 @@ import Vuex from 'vuex'
 import VuexPersistence from 'vuex-persist'
 
 const vuexLocal = new VuexPersistence({
-  storage: window.localStorage,
-  // asyncStorage: true
+  storage: localStorage,
+  asyncStorage: false
 });
 Vue.use(Vuex)
 Vue.use(VueAxios, axios)
@@ -19,6 +19,17 @@ Vue.use(VueAxios, axios)
 
 Vue.config.productionTip = false
 
+const store = new Vuex.Store({
+  state: {
+    count: 0
+  },
+  mutations: {
+    increment(state) {
+      state.count++
+    }
+  },
+  plugins: [vuexLocal.plugin]
+})
 
 /* eslint-disable no-new */
 new Vue({
